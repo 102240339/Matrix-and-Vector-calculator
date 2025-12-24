@@ -21,7 +21,6 @@ public:
 	//initialize
 	void zeros() const;
 	void ones() const;
-	void eye() const;
 	void random() const;
 	void print(string name);
 	double norm(const int& p);
@@ -32,24 +31,25 @@ public:
 	double operator () (const int& s) const {
 		assert(s > -1 && s < size); return entry[s];
 	}
+	Vector& operator = (const Vector& vec);
+	Vector operator + (const Vector& vec);
+	Vector operator - (const Vector& vec);
+	Vector operator * (const double& val);
+	Vector operator * (const Vector& vec);
 	//constructor and destructor
 	Vector(const int& s) {
 		size = s; entry = new double[size];
 	}
 	Vector(const int& s, const int& val) : Vector(s) {
-		for (int i = 0; i < size; ++i) {entry[i] = val;}
+		for (int i = 0; i < size; ++i) { entry[i] = val; }
 	}
-	~Vector() {delete[] entry;}
+	~Vector() { delete[] entry; }
 	Vector(const Vector& vec) {
 		size = vec.getSize(); entry = new double[size];
 		for (int i = 0; i < size; ++i) {
 			entry[i] = vec(i);
 		}
 	}
-	// operator
-	Vector operator + (const Vector& vec);
-	Vector operator - (const Vector& vec);
-	Vector operator * (const double& val);
 	//non - member
 	friend double dot(const Vector& v1, const Vector& v2) {
 		assert(v1.getSize() == v2.getSize());
