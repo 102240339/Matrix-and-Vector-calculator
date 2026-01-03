@@ -6,8 +6,6 @@
 #include <iostream>
 using namespace std;
 
-class Vector;
-
 class Matrix {
 private:
 	int row;
