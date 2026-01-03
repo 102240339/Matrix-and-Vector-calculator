@@ -1,71 +1,70 @@
-# include "vector.h"
-//initialize
-void Vector::zeros() const {
-	for (int i = 0; i < size; ++i) {entry[i] = 0.0;}
-}
-void Vector::random() const {
-	for (int i = 0; i < size; ++i) {
-		entry[i] = 1 + rand() % 10;
+#pragma once
+#include <cassert>
+#include <cstdlib>
+#include <random>
+#include <string>
+#include <iostream>
+#include <cmath>
+#include "matrix.h"
+using namespace std;
+class Vector {
+private:
+	int size;
+	double* entry;
+public:
+	//getSize - set/get entry
+	int getSize() const {
+		return size;
 	}
-}
-void Vector::print(string name) {
-	cout << "Vector " << name << ": ";
-	for (int i = 0; i < size; ++i) {
-		cout << entry[i] << ", ";
+	void setEntry(const int& s, const double& val);
+	double getEntry(const int& s) const;
+	//member - function
+	void zeros() const;
+	void random() const;
+	void print(string name);
+	double norm(const int& p);
+	//operator
+	double& operator () (const int& s) {
+		assert(s > -1 && s < size); return entry[s];
 	}
-	cout << endl;
-}
-double Vector::norm(const int& p) {
-	double temp = 0;
-	for (int i = 0; i < size; ++i) {
-		temp += pow(entry[i], p);
+	double operator () (const int& s) const {
+		assert(s > -1 && s < size); return entry[s];
 	}
-	return pow(temp, 1.0 / p);
-}
-
-void Vector::setEntry(const int& s, const double& val) {
-	entry[s] = val;
-}
-double Vector::getEntry(const int& s) const {
-	return entry[s];
-}
-////////////operator //////////////
-Vector& Vector::operator = (const Vector& vec) {
-	assert(size == vec.getSize());
-	for (int i = 0; i < size; ++i) {
-		entry[i] = vec(i);
+	Vector& operator = (const Vector& vec);
+	Vector operator + (const Vector& vec);
+	Vector operator - (const Vector& vec);
+	Vector operator * (const double& val);
+	Vector operator * (const Vector& vec);
+	//constructor and destructor
+	Vector(const int& s) {
+		size = s; entry = new double[size];
 	}
-	return *this;
-}
-Vector Vector::operator + (const Vector& vec) {
-	assert(size == vec.getSize());
-	Vector vec2(size);
-	vec2.zeros();
-	for (int i = 0; i < size; ++i) {
-		vec2(i) = entry[i] + vec(i);
+	Vector(const int& s, const int& val) : Vector(s) {
+		for (int i = 0; i < size; ++i) { entry[i] = val; }
 	}
-	return vec2;
-}
-Vector Vector::operator - (const Vector& vec) {
-	assert(size == vec.getSize());
-	Vector vec2(size); vec2.zeros();
-	for (int i = 0; i < size; ++i) {
-		vec2(i) = entry[i] - vec(i);
+	~Vector() { delete[] entry; }
+	Vector(const Vector& vec) {
+		size = vec.getSize(); entry = new double[size];
+		for (int i = 0; i < size; ++i) {
+			entry[i] = vec(i);
+		}
 	}
-	return vec2;
-}
-Vector Vector::operator * (const double& val) {
-	Vector v(size);
-	for (int i = 0; i < size; ++i) {
-		v(i) = entry[i] * val;
+	//non - member
+	friend double dot(const Vector& v1, const Vector& v2) {
+		assert(v1.getSize() == v2.getSize());
+		double v = 0;
+		for (int i = 0; i < v1.getSize(); ++i) {
+			v += v1(i) * v2(i);
+		}
+		return v;
 	}
-	return v;
-}
-Vector Vector::operator * (const Vector& vec) {
-	assert(vec.getSize() == 3 && size == 3);
-	Vector v(3);
-	v(0) = entry[1] * vec(2) - entry[2] * vec(1);
-	v(1) = entry[2] * vec(0) - entry[0] * vec(2);
-	v(2) = entry[0] * vec(1) - entry[1] * vec(0);
-	return v;
-}
+	friend double angle(const Vector& v1, const Vector& v2) {
+		assert(v1.getSize() == v2.getSize());
+		double n1 = 0, n2 = 0; double a = 0;
+		for (int i = 0; i < v1.getSize(); ++i) {
+			n1 += pow(v1(i), 2); n2 += pow(v2(i), 2);
+		}
+		n1 = pow(n1, 1 / 2); n2 = pow(n2, 1 / 2); 
+		return a = acos(dot(v1, v2) / (n1*n2));
+	}
+};
