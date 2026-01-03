@@ -3,9 +3,6 @@
 void Vector::zeros() const {
 	for (int i = 0; i < size; ++i) {entry[i] = 0.0;}
 }
-void Vector::ones() const {
-	for (int i = 0; i < size; ++i) {entry[i] = 1.0;}
-}
 void Vector::random() const {
 	for (int i = 0; i < size; ++i) {
 		entry[i] = 1 + rand() % 10;
