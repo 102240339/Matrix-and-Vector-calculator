@@ -13,12 +13,8 @@ private:
 	double** entries;
 public:
 	//getRow, getcol / set
-	int getRow() const {
-		return row;
-	}
-	int getCol() const {
-		return col;
-	}
+	int getRow() const {return row;}
+	int getCol() const {return col;}
 	void setEntry(const int& r, const int& c,
 		const double& val);
 	double getEntry(const int& r, const int& c) const;
@@ -93,3 +89,4 @@ public:
 		delete[] entries;
 	}
 };
+
