@@ -61,25 +61,19 @@ public:
 		for (int i = 0; i < row; ++i)
 			entries[i] = new double[col];
 		for (int i = 0; i < row; ++i) {
-			for (int j = 0; j < col; ++j) {
-				entries[i][j] = mat(i, j);
-			}
+			for (int j = 0; j < col; ++j) {entries[i][j] = mat(i, j);}
 		}
 	}
 	Matrix(const int& r, const int& c) {
 		row = r;
 		col = c;
 		entries = new double* [row];
-		for (int i = 0; i < row; ++i) {
-			entries[i] = new double[col];
-		}
+		for (int i = 0; i < row; ++i) {entries[i] = new double[col];}
 	}
 	Matrix(const int& r, const int& c,
 		const double& val) : Matrix(r, c) {
 		for (int i = 0; i < row; ++i) {
-			for (int j = 0; j < col; ++j) {
-				entries[i][j] = val;
-			}
+			for (int j = 0; j < col; ++j) {entries[i][j] = val;}
 		}
 	}
 	~Matrix() {
@@ -89,4 +83,3 @@ public:
 		delete[] entries;
 	}
 };
-
