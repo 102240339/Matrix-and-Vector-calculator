@@ -15,14 +15,6 @@ void Vector::print(string name) {
 	}
 	cout << endl;
 }
-double Vector::norm(const int& p) {
-	double temp = 0;
-	for (int i = 0; i < size; ++i) {
-		temp += pow(entry[i], p);
-	}
-	return pow(temp, 1.0 / p);
-}
-
 void Vector::setEntry(const int& s, const double& val) {
 	entry[s] = val;
 }
