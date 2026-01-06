@@ -36,7 +36,6 @@ public:
 		return entries[i][j];
 	}
 	Matrix& operator = (const Matrix& mat);
-	Matrix& operator - ();
 	Matrix operator + (const Matrix& mat);
 	Matrix operator - (const Matrix& mat);
 	Matrix operator * (const Matrix& mat);
@@ -52,6 +51,28 @@ public:
 			}
 		}
 		return B;
+	}
+	friend double getDet(Matrix& mat, int n) {
+		if (n == 1) {return mat(0, 0);}
+		if (n == 2) {
+			return mat(0, 0) * mat(1, 1) -
+				mat(0, 1) * mat(1, 0);
+		}
+		double res = 0;
+		for (int col = 0; col < n; col++) {
+			Matrix sub(n - 1, n - 1);
+			for (int i = 1; i < n; i++) {
+				int subcol = 0;
+				for (int j = 0; j < n; j++) {
+					if (j == col) continue;
+					sub(i - 1, subcol++) = mat(i, j);
+				}
+			}
+			int sign = (col % 2 == 0) ? 1 : -1;
+			res += sign * mat(0, col) * getDet(sub, n - 1);
+		}
+
+		return res;
 	}
 	//constructor
 	Matrix(const Matrix& mat) {
