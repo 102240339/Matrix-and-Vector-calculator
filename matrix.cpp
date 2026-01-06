@@ -38,13 +38,6 @@ Matrix& Matrix::operator = (const Matrix& mat) {
 	}
 	return *this;
 }
-Matrix& Matrix::operator - () {
-	Matrix mat(row,col);
-	for (int i = 0; i < row; ++i) {
-		for (int j = 0; j < col; ++j) {mat(i, j) = -entries[i][j];}
-	}
-	return mat;
-}
 Matrix Matrix::operator - (const Matrix& mat) {
 	assert(row == mat.getRow() && col == mat.getCol());
 	Matrix mat2(row, col); mat2.zeros();
@@ -88,4 +81,5 @@ Matrix Matrix::operator * (const double& val) {
 	}
 	return *this;
 }
+
 
