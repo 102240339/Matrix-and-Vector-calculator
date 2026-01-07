@@ -41,18 +41,8 @@ public:
 	Matrix operator * (const Matrix& mat);
 	Matrix operator * (const double& val);
 	//non - member
-	friend Matrix transpose(const Matrix& A) {
-		int new_rows = A.col;
-		int new_cols = A.row;
-		Matrix B(new_rows, new_cols);
-		for (int i = 0; i < A.row; ++i) {
-			for (int j = 0; j < A.col; ++j) {
-				B.entries[j][i] = A.entries[i][j];
-			}
-		}
-		return B;
-	}
 	friend double getDet(Matrix& mat, int n) {
+		assert(mat.getCol() == mat.getRow());
 		if (n == 1) {return mat(0, 0);}
 		if (n == 2) {
 			return mat(0, 0) * mat(1, 1) -
